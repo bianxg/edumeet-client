@@ -92,7 +92,8 @@ export class SignalingService extends EventEmitter {
 	}
 
 	public notify(method: string, data: unknown = {}): void {
-		logger.debug('notify() [method: %s]', method);
+		if (method !== 'clientSample')
+			logger.debug('notify() [method: %s]', method);
 
 		for (const connection of this.connections.items) {
 			try {
@@ -102,7 +103,8 @@ export class SignalingService extends EventEmitter {
 			}
 		}
 
-		logger.warn('notify() no connection available');
+		if (method !== 'clientSample')
+			logger.warn('notify() no connection available');
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
