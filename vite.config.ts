@@ -2,7 +2,10 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import eslint from 'vite-plugin-eslint';
 import viteTsconfigPaths from 'vite-tsconfig-paths';
-import basicSsl from '@vitejs/plugin-basic-ssl';
+
+//import basicSsl from '@vitejs/plugin-basic-ssl';
+import fs from 'fs';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,10 +13,13 @@ export default defineConfig({
 		react({ babel: { parserOpts: {} } }),
 		eslint(),
 		viteTsconfigPaths(),
-		basicSsl()
+		// basicSsl()
 	],
 	server: {
-		https: true,
+		https:{
+			key: fs.readFileSync(path.resolve(__dirname, 'certs/edumeet-demo-key.pem')),
+			cert: fs.readFileSync(path.resolve(__dirname, 'certs/edumeet-demo-cert.pem')),
+		},
 		port: 4443,
 		host: true,
 		hmr: {
