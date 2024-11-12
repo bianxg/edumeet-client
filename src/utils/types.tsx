@@ -3,6 +3,8 @@ import { TFLite } from '../services/effectsService';
 
 export const defaultEdumeetConfig: EdumeetConfig = {
 	managementUrl: undefined,
+	impressumUrl: '/privacy/privacy.html',
+	p2penabled: false,
 	loginEnabled: false,
 	developmentPort: 8443,
 	productionPort: 443,
@@ -75,6 +77,8 @@ export const defaultEdumeetConfig: EdumeetConfig = {
 		}
 	},
 	title: 'edumeet',
+	randomizeOnBlank: true,
+	transcriptionEnabled: true,
 	theme: {
 		background: 'linear-gradient(135deg, rgba(1,42,74,1) 0%, rgba(1,58,99,1) 50%, rgba(1,73,124,1) 100%)',
 		appBarColor: 'rgba(0, 0, 0, 0.4)',
@@ -93,6 +97,8 @@ export const defaultEdumeetConfig: EdumeetConfig = {
 
 export interface EdumeetConfig {
 	managementUrl?: string;
+	impressumUrl: string;
+	p2penabled: boolean;
 	loginEnabled: boolean;
 	developmentPort: number;
 	productionPort: number;
@@ -123,6 +129,8 @@ export interface EdumeetConfig {
 	buttonControlBar: boolean;
 	notificationSounds: Record<NotificationType, NotificationSound>;
 	title: string;
+	randomizeOnBlank: boolean;
+	transcriptionEnabled: boolean;
 	theme: ThemeOptions;
 	reduxLoggingEnabled: boolean;
 }
