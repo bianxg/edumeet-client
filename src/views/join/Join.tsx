@@ -19,6 +19,7 @@ import AudioOutputChooser from '../../components/devicechooser/AudioOutputChoose
 import { canSelectAudioOutput } from '../../store/selectors';
 import TestAudioOutputButton from '../../components/audiooutputtest/AudioOutputTest';
 import ImpressumButton from '../../components/controlbuttons/ImpressumButton';
+import MicVolume from '../../components/volume/MicVolume';
 
 interface JoinProps {
 	roomId: string;
@@ -67,9 +68,10 @@ const Join = ({ roomId }: JoinProps): React.JSX.Element => {
 			content={
 				<>
 					<MediaPreview startAudio={!audioMuted} startVideo={!videoMuted} stopAudio={false} stopVideo={false} updateSelection />
+					<VideoInputChooser />
 					<AudioInputChooser />
 					{ showAudioOutputChooser && <AudioOutputChooser /> }
-					<VideoInputChooser />
+					<MicVolume />
 					<TestAudioOutputButton />
 					<BlurSwitch />
 					<ChooserDiv>
