@@ -1,29 +1,33 @@
 import LinearProgress from '@mui/material/LinearProgress';
 import { useContext, useEffect, useState } from 'react';
-import { useAppSelector } from '../../store/hooks';
 import { ServiceContext } from '../../store/store';
 import { VolumeWatcher } from '../../utils/volumeWatcher';
-
-// TEST
-/* eslint-disable */
-import { Logger } from '../../utils/Logger';
-const logger = new Logger('MicVolume');
+import hark from 'hark';
 
 const MicVolume = (): JSX.Element => {
-	const micEnabled = useAppSelector((state) => state.me.micEnabled);
 	const { mediaService } = useContext(ServiceContext);
 	const [ volumeLevel, setVolume ] = useState<number>(0);
 
 	useEffect(() => {
 		let volumeWatcher: VolumeWatcher | undefined;
 
-		if (micEnabled)
-			volumeWatcher = mediaService.mediaSenders['mic'].volumeWatcher;
+		// Add hark for mic
+		if (mediaService.previewMicTrack) {
+			const harkStream = new MediaStream();
 
-		logger.debug(`micEnabled:${micEnabled}`);
-		logger.debug(`volumeWatcher:${volumeWatcher}`);
+			harkStream.addTrack(mediaService.previewMicTrack.clone());
 
-		const onVolumeChange = ({ volume, scaledVolume }: { volume: number, scaledVolume: number }): void => {
+			const micHark = hark(harkStream, {
+				play: false,
+				interval: 100,
+				threshold: -60,
+				history: 100
+			});
+
+			volumeWatcher = new VolumeWatcher({ hark: micHark });
+		}
+
+		const onVolumeChange = ({ scaledVolume }: { scaledVolume: number }): void => {
 			setVolume(scaledVolume*10); // 恢复范围 0-100
 		};
 
@@ -32,7 +36,7 @@ const MicVolume = (): JSX.Element => {
 		return () => {
 			volumeWatcher?.off('volumeChange', onVolumeChange);
 		};
-	}, []);
+	}, [ mediaService.previewMicTrack ]);
 
 	return (
 		<LinearProgress color='success' variant="determinate" value={volumeLevel} />
