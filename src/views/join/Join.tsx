@@ -18,11 +18,7 @@ import { meActions } from '../../store/slices/meSlice';
 import AudioOutputChooser from '../../components/devicechooser/AudioOutputChooser';
 import { canSelectAudioOutput } from '../../store/selectors';
 import TestAudioOutputButton from '../../components/audiooutputtest/AudioOutputTest';
-<<<<<<< HEAD
-import ImpressumButton from '../../components/controlbuttons/ImpressumButton';
-=======
 import edumeetConfig from '../../utils/edumeetConfig';
->>>>>>> main
 import MicVolume from '../../components/volume/MicVolume';
 
 interface JoinProps {
