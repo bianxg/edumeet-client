@@ -3,7 +3,6 @@ import { TFLite } from '../services/effectsService';
 
 export const defaultEdumeetConfig: EdumeetConfig = {
 	managementUrl: undefined,
-	impressumUrl: '/privacy/privacy.html',
 	p2penabled: false,
 	loginEnabled: false,
 	developmentPort: 8443,
@@ -92,12 +91,13 @@ export const defaultEdumeetConfig: EdumeetConfig = {
 		sideContentItemDarkColor: 'rgba(150, 150, 150, 0.4)',
 		sideContainerBackgroundColor: 'rgba(255, 255, 255, 0.7)',
 	},
-	reduxLoggingEnabled: false
+	reduxLoggingEnabled: false,
+	imprintUrl: '',
+	privacyUrl: ''
 };
 
 export interface EdumeetConfig {
 	managementUrl?: string;
-	impressumUrl: string;
 	p2penabled: boolean;
 	loginEnabled: boolean;
 	developmentPort: number;
@@ -133,6 +133,8 @@ export interface EdumeetConfig {
 	transcriptionEnabled: boolean;
 	theme: ThemeOptions;
 	reduxLoggingEnabled: boolean;
+	imprintUrl: string;
+	privacyUrl: string;
 }
 
 export interface HTMLMediaElementWithSink extends HTMLMediaElement {
@@ -263,3 +265,128 @@ export interface HTMLMediaElementWithSink extends HTMLMediaElement {
 	// eslint-disable-next-line no-unused-vars
 	setSinkId(deviceId: string): Promise<void>
 }
+
+export type Tenant = {
+	id: number,
+	name: string,
+	description: string
+};
+
+export type TenantFQDN = {
+	id: number,
+	tenantId: number,
+	description: string,
+	fqdn: string
+};
+
+export type TenantOAuth = {
+	id: number,
+	tenantId: number,
+	access_url: string,
+	authorize_url: string,
+	profile_url: string,
+	redirect_uri: string,
+	scope: string,
+	scope_delimiter: string,
+};
+
+export type User = {
+	id: number,
+    ssoId: string,
+    tenantId: number,
+    email: string,
+    name: string,
+    avatar: string,
+    roles: [],
+    tenantAdmin: boolean,
+    tenantOwner: boolean
+};
+
+export type Roles = {
+	id: number,
+    name: string,   
+    description: string,
+    tenantId: number
+    permissions: Array<Permissions>
+};
+
+export type GroupRoles = {
+	id: number,
+    groupId: number,
+    role:Roles,
+    roleId:number,
+    roomId:number
+};
+
+export type UsersRoles = {
+	id: number,
+    userId: number,
+    role:Roles,
+    roleId:number,
+    roomId:number
+};
+
+export type RoomOwners = {
+	id: number,
+    roomId: number,
+    userId: number,   
+};
+export type TenantOwners = {
+	id: number,
+    tenantId: number,
+    userId: number,   
+};
+
+export type TenantAdmins = {
+	id: number,
+    tenantId: number,
+    userId: number,   
+};
+
+export type Permissions = {
+	id: number,
+    name: string,   
+    description: string,
+};
+
+export type RolePermissions = {
+	id: number,
+    permission: Permissions
+    permissionId: number,   
+    roleId: number,
+};
+
+export type Room = {
+	id?: number,
+	name?: string,
+	description: string,
+	createdAt?: string,
+	updatedAt?: string,
+	creatorId?: string,
+	defaultRoleId? : number | string,
+	tenantId?: number | null,
+	logo: string | null,
+	background: string | null,
+	maxActiveVideos: number,
+	locked: boolean,
+	chatEnabled: boolean,
+	raiseHandEnabled: boolean,
+	filesharingEnabled: boolean,
+	groupRoles?: Array<Roles>,
+	localRecordingEnabled: boolean,
+	owners?: Array<RoomOwners>,
+	breakoutsEnabled: boolean,
+};
+
+export type Groups = {
+	id: number,
+    name: string,   
+    description: string,
+    tenantId: number
+};
+
+export type GroupUsers = {
+	id: number,
+    groupId: number,   
+    userId: number
+};

@@ -28,7 +28,7 @@ const MicVolume = (): JSX.Element => {
 		}
 
 		const onVolumeChange = ({ scaledVolume }: { scaledVolume: number }): void => {
-			setVolume(scaledVolume*10); // 恢复范围 0-100
+			setVolume(scaledVolume*10); // Range: 0-100
 		};
 
 		volumeWatcher?.on('volumeChange', onVolumeChange);
